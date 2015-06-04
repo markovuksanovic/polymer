@@ -46,6 +46,64 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <x-redistribute-a-b></x-redistribute-a-b>
 
+<dom-module id="x-containing-elem">
+  <template>
+    <content></content>
+  </template>
+  <script>
+    Polymer({
+      is: 'x-containing-elem',
+      properties: {
+        logger: {type: Array, notify: true}
+      },
+      attached: function() {
+        this.logger && this.logger.push('x-containing-elem')
+      }
+    });
+  </script>
+</dom-module>
+
+<dom-module id="x-contained-elem">
+  <template>Attr1</template>
+  <script>
+    Polymer({
+      is: 'x-contained-elem',
+      properties: {
+        logger: {type: Array, notify: true}
+      },
+      attached: function() {
+        this.logger && this.logger.push('x-contained-elem')
+      }
+
+    });
+  </script>
+</dom-module>
+
+<dom-module id="x-logger">
+  <template>
+    <x-containing-elem logger="{{logs}}">
+      <x-contained-elem logger="{{logs}}"></x-contained-elem>
+    </x-containing-elem>
+  </template>
+  <script>
+    Polymer({
+      is: 'x-logger',
+      properties: {
+        logs: {
+          type: Array,
+          notify: true,
+          value: function() {
+            return [];
+          }
+        }
+      }
+    });
+  </script>
+</dom-module>
+
+<x-logger>
+</x-logger>
+
 <script src="polymer-dom.js"></script>
 
 </body>

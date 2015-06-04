@@ -271,10 +271,15 @@ suite('Polymer.dom', function() {
     assert.equal(Polymer.dom(c).getDestinationInsertionPoints()[0], ip$[1], 'child not distributed based on host attribute');
     c.foo = true;
     Polymer.dom.flush();
-    assert.equal(Polymer.dom(c).getDestinationInsertionPoints()[0], ip$[0], 'child not distributed based on reflecting attribute')
+    assert.equal(Polymer.dom(c).getDestinationInsertionPoints()[0], ip$[0], 'child not distributed based on reflecting attribute');
     c.foo = false;
     Polymer.dom.flush();
     assert.equal(Polymer.dom(c).getDestinationInsertionPoints()[0], ip$[1], 'child not distributed based on reflecting attribute')
+  });
+
+  test.only('attach should be called first on child and then on parent', function() {
+    var e = document.querySelector('x-logger');
+    assert.equal(e.logs.toString(), ['x-contained-elem', 'x-containing-elem'].toString())
   });
 
   test('within a host setting hostAttributes/reflecting properties provokes distribution', function() {
